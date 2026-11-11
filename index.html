@@ -1,0 +1,1190 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>ALUMIRROR M1 — новая карточка</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap">
+<style>
+/* Палитра: тёплый светлый фон, почти чёрный текст, приглушённая олива только на кнопках и выбранном, шалфей для полос.
+   Один шрифт бренда — Montserrat. Карточка товара: миниатюры слева, фото, чистая панель покупки. */
+:root{
+  --emerald:#2A2A24;   /* текст и обводки выбранного */
+  --olive:#3E4830;     /* заливки: кнопки, выбранное */
+  --pine:#515C42;      /* наведение на оливу */
+  --sage:#737862;      /* полоса фактов */
+  --sage-soft:#E7E9DF;
+  --ivory:#FBF8F5;
+  --linen:#F2EDE9;
+  --stone:#E2DCD5;
+  --brass:#737862;
+  --walnut:#45423A;
+  --muted:#75716A;
+  --wash:#F5F1ED;
+  --f:"Montserrat", "Segoe UI", Arial, sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --gut:max(20px, env(safe-area-inset-left, 0px));
+  --gutR:max(20px, env(safe-area-inset-right, 0px));
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scrollbar-color:var(--stone) var(--ivory);-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--ivory);color:var(--walnut);font-family:var(--f);font-size:15px;line-height:1.6;padding-left:var(--gut);padding-right:var(--gutR)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:30;background:var(--linen)}
+::selection{background:var(--olive);color:var(--ivory)}
+a{color:inherit;text-underline-offset:.22em;text-decoration-thickness:1px}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.wrap{max-width:1320px;margin:0 auto}
+.bleed{margin-left:calc(-1 * var(--gut));margin-right:calc(-1 * var(--gutR));padding-left:var(--gut);padding-right:var(--gutR)}
+.tnum{font-variant-numeric:tabular-nums}
+h1,h2,h3{color:var(--emerald);font-weight:500;letter-spacing:-.02em;margin:0;text-wrap:balance}
+svg{flex:none}
+
+/* шапка */
+.topbar{background:var(--linen);color:var(--muted);font-size:12.5px}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:36px}
+.topbar nav{display:flex;gap:28px;align-items:center}
+.topbar a{text-decoration:none}
+.topbar a:hover{color:var(--emerald)}
+.topbar .phone{color:var(--emerald);font-weight:500;user-select:all}
+.hdr{position:sticky;top:env(safe-area-inset-top, 0px);z-index:20;background:#fff;border-bottom:1px solid var(--stone)}
+.hdr .wrap{display:flex;align-items:center;gap:36px;height:76px}
+.logo{font-size:22px;letter-spacing:.32em;font-weight:400;text-decoration:none;color:var(--emerald);flex:none;margin-right:-.32em}
+.nav{display:flex;gap:28px;font-size:14px;margin-left:auto}
+.nav a{text-decoration:none;color:var(--emerald);padding-block:8px;white-space:nowrap;position:relative}
+.nav a::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:1px;background:var(--olive);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.nav a:hover::after,.nav a[aria-current="page"]::after{transform:none}
+.tools{display:flex;align-items:center;gap:4px;margin-left:8px}
+.icon-btn{width:44px;height:44px;display:grid;place-items:center;border:0;background:none;cursor:pointer;position:relative;color:var(--emerald);border-radius:50%}
+.icon-btn:hover{background:var(--wash)}
+.icon-btn svg{width:21px;height:21px}
+.badge{position:absolute;top:6px;right:4px;min-width:17px;height:17px;border-radius:9px;background:var(--brass);color:#fff;font-size:10.5px;font-weight:600;display:grid;place-items:center;padding:0 4px}
+.badge[hidden]{display:none}
+.menu-btn{display:none}
+.mnav{position:absolute;left:0;right:0;top:100%;background:var(--ivory);border-bottom:1px solid var(--stone);box-shadow:0 20px 40px rgba(42,42,36,.12);padding:6px var(--gutR) 18px var(--gut)}
+.mnav[hidden]{display:none}
+.mnav a{display:block;padding:13px 0;font-size:16px;text-decoration:none;color:var(--emerald);border-bottom:1px solid var(--linen)}
+.mnav .sub{display:flex;flex-wrap:wrap;gap:4px 22px;margin-top:10px}
+.mnav .sub a{border:0;font-size:14px;color:var(--muted);padding:8px 0}
+
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px;color:var(--muted);padding-block:16px}
+.crumbs a{text-decoration:none}
+.crumbs a:hover{color:var(--emerald);text-decoration:underline}
+.crumbs svg{width:12px;height:12px;opacity:.6}
+
+/* первый экран: миниатюры слева, фото, чистая панель покупки */
+.pdp{display:grid;grid-template-columns:minmax(0,1.22fr) minmax(0,1fr);gap:56px;align-items:start;padding-top:4px}
+.media{position:sticky;top:96px;display:grid;grid-template-columns:84px minmax(0,1fr);gap:8px 14px;align-items:start}
+.stage{position:relative;height:clamp(460px, calc(100vh - 230px), 640px);overflow:hidden;background:var(--linen);border-radius:14px}
+.stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 38%}
+.lit{position:absolute;inset:0;z-index:1;transition:opacity .9s var(--ease)}
+.lit.off{opacity:0}
+#img4500,#img6000{transition:opacity .25s linear}
+#imgDetail{z-index:2}
+.snow{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+.lit[hidden],#imgDetail[hidden],#imgOff[hidden]{display:none}
+.stage .ghost{z-index:2;opacity:1;transition:opacity .75s var(--ease)}
+.stage .ghost.out{opacity:0}
+.size-tag{position:absolute;top:16px;left:16px;z-index:3;padding:7px 13px;border-radius:999px;background:rgba(255,255,255,.92);color:var(--emerald);font-size:13.5px;font-weight:600;box-shadow:0 6px 18px rgba(42,42,36,.14)}
+.size-tag[hidden]{display:none}
+@keyframes tagpop{0%{transform:scale(.85);background:var(--olive);color:#fff}60%{transform:scale(1.06)}100%{transform:none}}
+.size-tag.pop{animation:tagpop .7s cubic-bezier(.34,1.56,.64,1)}
+.lamp{position:absolute;left:16px;bottom:16px;z-index:3;display:flex;align-items:center;gap:12px}
+.switch{display:flex;align-items:center;gap:12px;height:44px;padding:0 6px 0 16px;border-radius:22px;border:0;background:#fff;cursor:pointer;font-size:14px;font-weight:500;color:var(--emerald);box-shadow:0 6px 20px rgba(42,42,36,.16)}
+.track{width:44px;height:28px;border-radius:14px;background:var(--stone);position:relative;transition:background .3s var(--ease)}
+.track::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .35s var(--ease)}
+.switch[aria-checked="true"] .track{background:var(--olive)}
+.switch[aria-checked="true"] .track::after{transform:translateX(16px)}
+.thumbs{order:-1;display:flex;flex-direction:column;gap:12px}
+.thumb{position:relative;width:100%;aspect-ratio:4/5;padding:0;border:0;border-radius:10px;overflow:hidden;cursor:pointer;background:var(--linen)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--ease)}
+.thumb:hover img{transform:scale(1.05)}
+.thumb::after{content:"";position:absolute;inset:0;border:1.5px solid transparent;border-radius:10px;transition:border-color .3s var(--ease)}
+.thumb[aria-current="true"]::after{border-color:var(--emerald)}
+.cap{grid-column:2;font-size:12.5px;color:var(--muted);margin:0;min-height:20px}
+
+/* сенсорная кнопка «Настраиваемого» */
+.touch{position:absolute;z-index:4;width:0;height:0}
+.touch[hidden]{display:none}
+.dial{position:absolute;left:-38px;top:-38px;width:76px;height:76px;border-radius:50%;touch-action:none;cursor:grab;
+  background:conic-gradient(from 225deg, #FFB866 0deg, #FFE7C2 135deg, #E7F0FF 270deg, transparent 270deg);
+  -webkit-mask:radial-gradient(circle, transparent 27px, #000 28px);mask:radial-gradient(circle, transparent 27px, #000 28px)}
+.dial:active{cursor:grabbing}
+.dial:focus-visible{outline:none}
+.dial:focus-visible + .knob{box-shadow:0 0 0 3px var(--olive)}
+.knob{position:absolute;left:-24px;top:-24px;width:48px;height:48px;border-radius:50%;pointer-events:none;display:grid;place-items:center;background:rgba(255,255,255,.55);border:1px solid #fff;box-shadow:0 4px 14px rgba(42,42,36,.25)}
+.knob svg{width:22px;height:22px;color:var(--emerald)}
+.knob-dot{position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--olive);pointer-events:none}
+.tip{position:absolute;left:52px;top:-30px;width:max-content;max-width:240px;padding:10px 14px;border-radius:10px;background:var(--olive);color:#fff;box-shadow:0 10px 26px rgba(42,42,36,.25);font-size:13.5px;line-height:1.35}
+.tip b{display:block;font-weight:600}
+.tip span{font-size:12.5px;color:rgba(255,255,255,.78)}
+.tip::before{content:"";position:absolute;left:-5px;top:24px;width:10px;height:10px;transform:rotate(45deg);background:var(--olive)}
+@keyframes nudge{0%,100%{transform:rotate(0)}30%{transform:rotate(-14deg)}60%{transform:rotate(14deg)}}
+.touch.fresh .knob svg{animation:nudge 1.6s ease-in-out .6s 3}
+
+/* панель покупки */
+.buy{padding-top:2px;max-width:540px}
+.chip{display:inline-block;padding:5px 12px;border-radius:6px;background:var(--sage-soft);color:var(--olive);font-size:12.5px;font-weight:600}
+h1{font-size:clamp(36px,3.3vw,46px);line-height:1.08;letter-spacing:-.03em;font-weight:600;margin-top:14px}
+.price-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-top:14px}
+.price{font-size:30px;font-weight:600;color:var(--emerald);letter-spacing:-.01em;line-height:1}
+.art{font-size:13px;color:var(--muted)}
+.desc{font-size:15px;line-height:1.6;color:var(--walnut);margin:16px 0 0;max-width:46ch}
+.sep{border:0;border-top:1px solid var(--stone);margin:22px 0 0}
+.grp{border:0;margin:22px 0 0;padding:0;min-width:0}
+.grp legend{display:flex;justify-content:space-between;align-items:baseline;gap:12px;width:100%;padding:0;margin-bottom:12px;font-size:14.5px;font-weight:600;color:var(--emerald)}
+.grp legend .val{font-weight:400;margin-left:4px}
+.grp legend a{font-size:13px;font-weight:500;color:var(--walnut);white-space:nowrap}
+.grp legend a:hover{color:var(--emerald)}
+.opt{position:relative;display:block}
+.opt input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer;z-index:1}
+.opt input:focus-visible + .face{outline:2px solid var(--olive);outline-offset:3px}
+
+/* размеры: маленький силуэт в масштабе + размер и цена; выбранный залит оливой, силуэт светится цветом света */
+:root{--lc:207,224,255}
+.sizes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.sizes .face{display:flex;align-items:center;justify-content:center;gap:10px;height:64px;padding:0 6px;border-radius:10px;background:#fff;box-shadow:inset 0 0 0 1px var(--stone);transition:box-shadow .3s var(--ease), background .3s var(--ease)}
+.sizes .opt:hover .face{box-shadow:inset 0 0 0 1px var(--emerald)}
+.sizes svg{display:block;overflow:visible;transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+.sizes .shape{fill:var(--linen);stroke:#B9B1A6;stroke-width:1;transition:fill .4s var(--ease), filter .5s var(--ease), stroke .4s var(--ease)}
+.sizes .lab{display:flex;flex-direction:column;line-height:1.25}
+.sizes .lab b{font-size:14px;font-weight:600;color:var(--emerald);white-space:nowrap;transition:color .3s var(--ease)}
+.sizes .lab span{font-size:12px;color:var(--muted);white-space:nowrap;transition:color .3s var(--ease)}
+.sizes input:checked + .face{background:var(--olive);box-shadow:0 10px 22px rgba(62,72,48,.28)}
+.sizes input:checked + .face .lab b{color:#fff}
+.sizes input:checked + .face .lab span{color:rgba(255,255,255,.75)}
+.sizes input:checked + .face svg{transform:scale(1.08)}
+.sizes input:checked + .face .shape{fill:#fff;stroke:rgba(var(--lc),1);filter:drop-shadow(0 0 3px rgba(var(--lc),1)) drop-shadow(0 0 9px rgba(var(--lc),.9))}
+
+/* цвет света: настоящие крупные планы свечения M1 на стене, как образцы ткани */
+.bulbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.bulbs .face{display:flex;flex-direction:column;gap:8px}
+.sw{position:relative;display:block;aspect-ratio:5/4;border-radius:10px;overflow:hidden;background:var(--linen);box-shadow:0 0 0 1px var(--stone);transition:box-shadow .35s var(--ease)}
+.sw img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 45%;display:block;transition:transform .9s var(--ease)}
+.bulbs .opt:hover .sw img{transform:scale(1.08)}
+.sw.mix img{width:34%;transition:none}
+.sw.mix img:nth-child(2){left:33%}
+.sw.mix img:nth-child(3){left:66%}
+.sw .ring{position:absolute;left:50%;top:50%;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 10px 2px rgba(255,255,255,.75), inset 0 0 6px rgba(255,255,255,.6)}
+.sw .add{position:absolute;top:6px;right:6px;padding:2px 7px;border-radius:6px;background:rgba(255,255,255,.92);font-size:11px;font-weight:600;font-style:normal;color:var(--emerald);line-height:1.5}
+.bulbs input:checked + .face .sw{box-shadow:0 0 0 2px var(--ivory), 0 0 0 3.5px var(--emerald), 0 10px 22px rgba(42,42,36,.16)}
+.bulbs .lab{display:flex;flex-direction:column;line-height:1.25;padding-left:2px}
+.bulbs .lab b{font-size:13px;font-weight:500;color:var(--walnut);overflow-wrap:anywhere;hyphens:manual}
+.bulbs .lab span{font-size:12px;color:var(--muted)}
+.bulbs input:checked + .face .lab b{font-weight:600;color:var(--emerald)}
+
+/* тип подсветки: две кнопки */
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chips .face{display:flex;align-items:center;justify-content:center;gap:10px;height:52px;border-radius:10px;background:#fff;box-shadow:inset 0 0 0 1px var(--stone);font-size:14px;font-weight:500;color:var(--emerald);transition:background .3s var(--ease), color .3s var(--ease), box-shadow .3s var(--ease)}
+.chips .opt:hover .face{box-shadow:inset 0 0 0 1px var(--emerald)}
+.chips input:checked + .face{background:var(--olive);color:#fff;box-shadow:0 10px 22px rgba(62,72,48,.28)}
+.chips .face svg{width:20px;height:20px}
+
+/* переключатель с бегунком (город доставки) */
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:12px;background:var(--wash);box-shadow:inset 0 0 0 1px var(--stone)}
+.seg-thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:9px;background:var(--olive);box-shadow:0 6px 16px rgba(42,42,36,.2);transition:transform .45s cubic-bezier(.34,1.3,.64,1)}
+.seg[data-v="front"] .seg-thumb{transform:translateX(100%)}
+.seg .opt{z-index:1}
+.seg .face{display:flex;align-items:center;justify-content:center;gap:10px;height:46px;border-radius:9px;font-size:14px;font-weight:500;color:var(--emerald);transition:color .35s var(--ease)}
+.seg input:checked + .face{color:#fff}
+.hint{font-size:13px;color:var(--muted);margin:10px 0 0;line-height:1.5}
+
+.ctas{display:grid;grid-template-columns:minmax(0,1fr) 56px;gap:10px;margin-top:26px}
+.btn{height:56px;border:0;padding:0 22px;border-radius:10px;font-weight:600;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;white-space:nowrap;transition:background-color .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease), transform .3s var(--ease), box-shadow .3s var(--ease)}
+.btn svg{width:20px;height:20px}
+.btn-primary{background:var(--olive);color:#fff;box-shadow:0 10px 24px rgba(62,72,48,.25)}
+.btn-primary:hover{background:var(--pine);transform:translateY(-1px);box-shadow:0 14px 30px rgba(62,72,48,.3)}
+.btn-primary:active{transform:none}
+.btn-sq{padding:0;background:#fff;box-shadow:inset 0 0 0 1px var(--stone);color:var(--emerald)}
+.btn-sq:hover{box-shadow:inset 0 0 0 1px var(--emerald)}
+.btn-sq svg{width:22px;height:22px;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.btn-sq[aria-pressed="true"] svg{fill:var(--olive);color:var(--olive);transform:scale(1.1)}
+.trust{list-style:none;padding:0;margin:22px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.trust li{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;line-height:1.4;color:var(--muted)}
+.trust b{display:block;font-size:13px;font-weight:600;color:var(--emerald)}
+.trust svg{width:24px;height:24px;color:var(--emerald);margin-top:1px}
+.ask{margin:20px 0 0;padding-top:16px;border-top:1px solid var(--stone);font-size:13.5px;color:var(--muted);line-height:1.5}
+.ask a{color:var(--emerald);font-weight:600}
+
+/* полоса фактов */
+.facts{margin-top:88px;background:var(--sage);color:#fff}
+.facts .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding-block:34px}
+.fact{display:flex;gap:14px;align-items:flex-start;padding:4px 28px;border-left:1px solid rgba(255,255,255,.22)}
+.fact:first-child{border-left:0;padding-left:0}
+.fact svg{width:30px;height:30px;color:#fff;opacity:.9;margin-top:2px}
+.fact b{display:block;font-size:16px;font-weight:600;margin-bottom:4px;color:#fff}
+.fact span{font-size:13.5px;color:rgba(255,255,255,.82);line-height:1.5}
+
+/* разделы ниже */
+section.block{padding-top:96px}
+.block h2{font-size:clamp(30px,3vw,42px);line-height:1.1;margin-bottom:28px}
+.lead{font-size:17px;line-height:1.65;max-width:52ch;margin:0 0 28px}
+.textbtn{display:inline-flex;align-items:center;gap:8px;background:none;border:0;padding:6px 0;cursor:pointer;font-size:14px;font-weight:500;color:var(--emerald);text-decoration:underline;text-underline-offset:.3em}
+.textbtn svg{width:16px;height:16px;transition:transform .35s var(--ease)}
+.textbtn[aria-expanded="true"] svg{transform:rotate(180deg)}
+
+/* как устроено: точки на фото */
+.anat{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:64px;align-items:start}
+.anat h2{margin-bottom:18px}
+.anat-fig{position:relative;margin:0;border-radius:14px;overflow:hidden;background:var(--linen);aspect-ratio:3/4}
+.tabs{display:flex;gap:30px;box-shadow:inset 0 -1px 0 var(--stone);margin-bottom:26px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;position:relative;border:0;background:none;padding:12px 0 14px;cursor:pointer;font-size:15px;font-weight:500;color:var(--muted);white-space:nowrap;transition:color .3s var(--ease)}
+.tabs button::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--emerald);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+.tabs button:hover,.tabs button[aria-selected="true"]{color:var(--emerald)}
+.tabs button[aria-selected="true"]::after{transform:none}
+.tabs button:focus-visible{outline-offset:-2px}
+.panel[hidden]{display:none}
+.panel{animation:fadeUp .45s var(--ease)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.panel .keys{margin-bottom:10px}
+.list{list-style:none;padding:0;margin:0}
+.list li{padding:14px 0;border-bottom:1px solid var(--stone);font-size:15px;line-height:1.5}
+.list li:first-child{padding-top:0}
+.list b{display:block;font-weight:600;color:var(--emerald);margin-bottom:2px}
+.sz-t th,.sz-t td{width:auto;white-space:nowrap}
+.sz-t thead th{font-size:13px;padding-top:0}
+.sz-t tr.on td{font-weight:600}
+.sz-t tr.on td:first-child::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--olive);margin:0 8px 2px -15px}
+.anat-fig img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.hot{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:0;padding:0;cursor:pointer;background:transparent;display:grid;place-items:center}
+.hot i{width:20px;height:20px;border-radius:50%;background:var(--ivory);box-shadow:0 0 0 6px rgba(250,248,242,.35), 0 4px 12px rgba(42,42,36,.35);transition:transform .35s cubic-bezier(.34,1.56,.64,1), background .3s var(--ease), box-shadow .3s var(--ease)}
+.hot:hover i{transform:scale(1.2)}
+.hot[aria-pressed="true"] i{background:var(--olive);transform:scale(1.25);box-shadow:0 0 0 6px rgba(250,248,242,.85), 0 0 0 9px rgba(42,42,36,.35), 0 6px 16px rgba(42,42,36,.4)}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(250,248,242,.9)}100%{box-shadow:0 0 0 22px rgba(250,248,242,0)}}
+.hot.ping::after{content:"";position:absolute;inset:12px;border-radius:50%;animation:ping 1.6s var(--ease) 2}
+.feat{list-style:none;padding:0;margin:0 0 36px}
+.feat li{border-top:1px solid var(--linen)}
+.feat li:last-child{border-bottom:1px solid var(--linen)}
+.feat button{width:100%;display:flex;align-items:center;gap:14px;padding:18px 0;border:0;background:none;cursor:pointer;text-align:left;font-size:17px;font-weight:400;color:var(--emerald)}
+.feat button .dot{width:12px;height:12px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--emerald);transition:background .3s var(--ease)}
+.feat button[aria-expanded="true"]{font-weight:500}
+.feat button[aria-expanded="true"] .dot{background:var(--olive)}
+.feat button .pm{margin-left:auto;width:16px;height:16px;transition:transform .35s var(--ease)}
+.feat button[aria-expanded="true"] .pm{transform:rotate(45deg)}
+.feat .ans{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
+.feat .ans > div{overflow:hidden}
+.feat .ans p{margin:0 0 18px 26px;font-size:15px;line-height:1.6;color:var(--walnut);max-width:52ch}
+.feat button[aria-expanded="true"] + .ans{grid-template-rows:1fr}
+
+.keys{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--linen);border-radius:20px;overflow:hidden;box-shadow:0 0 0 1px var(--linen)}
+.key{background:var(--ivory);padding:18px 18px 16px}
+.key span{display:block;font-size:12.5px;color:var(--muted);margin-bottom:4px}
+.key b{display:block;font-size:17px;font-weight:500;color:var(--emerald);line-height:1.3}
+.all-specs{margin-top:14px}
+table.specs{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:8px}
+.specs th,.specs td{text-align:left;padding:11px 0;border-bottom:1px solid var(--linen);vertical-align:top}
+.specs th{font-weight:400;color:var(--muted);width:46%;padding-right:16px}
+.specs td{color:var(--emerald)}
+.specs-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease)}
+.specs-wrap > div{overflow:hidden}
+.specs-wrap.open{grid-template-rows:1fr}
+
+/* примерка: стена с дверью, человеком и консолью в одном масштабе */
+.fit-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:24px}
+.fit-head h2{margin:0}
+.fit-head p{margin:10px 0 0;font-size:15px;color:var(--muted);max-width:52ch}
+.room{position:relative;border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--linen), 0 30px 60px rgba(42,42,36,.08)}
+.room svg{display:block;width:100%;height:auto}
+.room text{font-family:var(--f)}
+.mir{transition:transform .8s cubic-bezier(.34,1.25,.64,1)}
+.mir-glow{stroke:rgb(var(--lc));transition:stroke .5s var(--ease)}
+.room .tag{position:absolute;padding:8px 14px;border-radius:999px;background:var(--olive);color:var(--ivory);font-size:14px;font-weight:600;transform:translate(-50%,-100%);transition:left .8s cubic-bezier(.34,1.25,.64,1), top .8s cubic-bezier(.34,1.25,.64,1);white-space:nowrap;box-shadow:0 8px 20px rgba(42,42,36,.25)}
+.room .tag::after{content:"";position:absolute;left:50%;bottom:-5px;width:10px;height:10px;background:inherit;transform:translateX(-50%) rotate(45deg)}
+.fit-note{font-size:13px;color:var(--muted);margin:14px 0 0}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{height:44px;padding:0 18px;border-radius:999px;border:0;background:#fff;box-shadow:inset 0 0 0 1px var(--stone);cursor:pointer;font-size:14.5px;font-weight:500;color:var(--emerald);transition:background .3s var(--ease), color .3s var(--ease), box-shadow .3s var(--ease)}
+.pill:hover{box-shadow:inset 0 0 0 1px var(--emerald)}
+.pill[aria-pressed="true"]{background:var(--olive);color:var(--ivory);box-shadow:none}
+
+/* отзывы */
+.rev{margin-top:96px;background:var(--linen);overflow:hidden}
+.rev .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:40px;align-items:center;padding-block:72px}
+.rev-intro{background:var(--olive);color:#fff;border-radius:18px;padding:36px}
+.rev-intro p{font-size:16px;color:rgba(255,255,255,.78);margin:-12px 0 24px}
+.rev-photo{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:5/4;margin:0}
+.chat{background:var(--ivory);border-radius:18px;box-shadow:0 24px 60px rgba(42,42,36,.10);overflow:hidden;color:var(--walnut)}
+.chat-top{display:flex;align-items:center;gap:12px;padding:18px 24px;background:#fff;border-bottom:1px solid var(--linen)}
+.chat-ava{width:40px;height:40px;border-radius:50%;background:var(--olive);color:var(--ivory);display:grid;place-items:center;font-size:15px;letter-spacing:.1em}
+.chat-top b{display:block;font-size:15px;font-weight:600;color:var(--emerald);letter-spacing:.12em}
+.chat-top span{font-size:13px;color:var(--muted)}
+.chat-body{display:flex;flex-direction:column;gap:14px;padding:26px 24px;min-height:380px}
+.bub{max-width:86%;padding:14px 18px;border-radius:22px 22px 22px 6px;background:#fff;font-size:16px;line-height:1.5;box-shadow:0 4px 14px rgba(81,56,43,.08)}
+.bub:nth-child(2){align-self:flex-end;border-radius:22px 22px 6px 22px}
+.js .bub{opacity:0;transform:translateY(16px) scale(.97);transition:opacity .5s var(--ease), transform .6s cubic-bezier(.34,1.3,.64,1)}
+.js .bub.in{opacity:1;transform:none}
+.typing{display:none;gap:5px;align-self:flex-start;padding:14px 18px;border-radius:22px;background:#fff}
+.typing.on{display:flex}
+.typing i{width:7px;height:7px;border-radius:50%;background:#B9A898;animation:dots 1s ease-in-out infinite}
+.typing i:nth-child(2){animation-delay:.15s}
+.typing i:nth-child(3){animation-delay:.3s}
+@keyframes dots{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-4px);opacity:1}}
+.chat-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:16px 24px;background:#fff;border-top:1px solid var(--linen);font-size:14px}
+.chat-foot a{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border-radius:999px;background:var(--olive);color:var(--ivory);text-decoration:none;font-weight:600;font-size:14px}
+.chat-foot a svg{width:18px;height:18px}
+
+/* живой фон: мягкое свечение цвета выбранного света */
+.ambient{position:fixed;inset:-25%;z-index:-1;pointer-events:none;
+  background:radial-gradient(32% 28% at 18% 30%, rgba(var(--lc),.20), transparent 70%),radial-gradient(30% 26% at 82% 68%, rgba(176,141,87,.12), transparent 70%),radial-gradient(26% 22% at 60% 15%, rgba(var(--lc),.12), transparent 70%);
+  animation:drift 36s ease-in-out infinite alternate;transition:background .8s var(--ease)}
+@keyframes drift{0%{transform:translate3d(0,0,0) rotate(0deg)}50%{transform:translate3d(3%,-2%,0) rotate(4deg)}100%{transform:translate3d(-3%,2%,0) rotate(-3deg)}}
+.rev-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 35%}
+.rev h2{color:var(--ivory);margin-bottom:28px;font-size:clamp(30px,3vw,42px);line-height:1.1}
+.quote-stage{position:relative;min-height:230px}
+.quote{position:absolute;inset:0;margin:0;opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease), transform .6s var(--ease);pointer-events:none}
+.quote.on{opacity:1;transform:none;pointer-events:auto}
+.quote svg.q{width:42px;height:34px;color:var(--brass);margin-bottom:14px}
+.quote p{margin:0;font-size:clamp(21px,2vw,27px);line-height:1.45;font-weight:300;color:var(--ivory)}
+.quote footer{margin-top:18px;font-size:14px;color:rgba(250,248,242,.7)}
+.rev-nav{display:flex;align-items:center;gap:12px;margin-top:22px}
+.round{width:48px;height:48px;border-radius:50%;border:1px solid rgba(250,248,242,.4);background:transparent;color:var(--ivory);cursor:pointer;display:grid;place-items:center;transition:background .3s var(--ease), color .3s var(--ease)}
+.round:hover{background:var(--ivory);color:var(--emerald)}
+.round svg{width:18px;height:18px}
+.rev-count{font-size:14px;color:rgba(250,248,242,.7);margin-left:6px}
+.rev-ask{margin-top:40px;padding-top:24px;border-top:1px solid rgba(250,248,242,.18);display:flex;align-items:center;gap:18px;flex-wrap:wrap;font-size:15px}
+.rev-ask a{display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 20px;border-radius:999px;background:var(--ivory);color:var(--emerald);text-decoration:none;font-weight:600;font-size:14px}
+.rev-ask a svg{width:18px;height:18px}
+
+/* когда привезём */
+.eta-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:36px}
+.eta-head h2{margin:0;max-width:20ch}
+.eta-head h2 em{font-style:normal;color:var(--brass)}
+.track-line{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));list-style:none;padding:0;margin:0}
+.track-line::before{content:"";position:absolute;top:21px;left:22px;width:75%;height:2px;background:var(--linen)}
+.track-line .bar{position:absolute;top:21px;left:22px;height:2px;background:var(--olive);width:0;transition:width 1.4s var(--ease)}
+.track-line.go .bar{width:75%}
+.track-line li{position:relative;padding-right:24px}
+.track-line .node{position:relative;z-index:1;width:44px;height:44px;border-radius:50%;background:var(--ivory);box-shadow:inset 0 0 0 1.5px var(--emerald);display:grid;place-items:center;color:var(--emerald);margin-bottom:18px;transition:background .4s var(--ease), color .4s var(--ease)}
+.track-line.go .node{background:var(--olive);color:var(--ivory)}
+.track-line li:nth-child(2) .node{transition-delay:.35s}
+.track-line li:nth-child(3) .node{transition-delay:.7s}
+.track-line li:nth-child(4) .node{transition-delay:1.05s}
+.track-line .node svg{width:20px;height:20px}
+.track-line .when{display:block;font-size:20px;font-weight:500;color:var(--emerald);margin-bottom:4px}
+.track-line b{display:block;font-size:15px;font-weight:500;color:var(--walnut);margin-bottom:4px}
+.track-line span.t{display:block;font-size:14px;color:var(--muted);line-height:1.5;max-width:28ch}
+.eta-note{font-size:13px;color:var(--muted);margin-top:24px}
+
+.head-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+.head-row h2{margin:0}
+.ulink{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--emerald);text-decoration:underline;text-underline-offset:.3em}
+.ulink:hover{color:var(--pine);text-decoration-thickness:2px}
+.models{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.model{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--stone);border-radius:12px;overflow:hidden;transition:box-shadow .4s var(--ease), transform .4s var(--ease)}
+.model:hover{transform:translateY(-3px);box-shadow:0 18px 36px rgba(42,42,36,.10)}
+.model .ph{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--linen)}
+.model .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s var(--ease)}
+.model:hover .ph img{transform:scale(1.04)}
+.hit{position:absolute;top:12px;left:12px;background:var(--olive);color:#fff;font-size:12px;font-weight:600;padding:4px 10px;border-radius:6px}
+.fav{position:absolute;right:6px;bottom:10px;z-index:1;width:44px;height:44px;border-radius:50%;border:0;background:none;display:grid;place-items:center;cursor:pointer;color:var(--emerald)}
+.fav svg{width:21px;height:21px;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.fav:hover{background:var(--wash)}
+.fav[aria-pressed="true"] svg{fill:var(--olive);color:var(--olive);transform:scale(1.1)}
+.model .body{position:relative;padding:14px 56px 16px 16px;display:flex;flex-direction:column;gap:2px}
+.model .name{font-weight:600;font-size:15px;color:var(--emerald);text-decoration:none}
+.model .name::after{content:"";position:absolute;inset:0}
+.model .sz{font-size:13px;color:var(--muted)}
+.model .from{font-size:15px;font-weight:600;color:var(--emerald);margin-top:6px}
+.other{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:36px;padding-top:24px;border-top:1px solid var(--linen)}
+.other .lbl{font-size:14px;color:var(--muted);margin-right:6px}
+.shape-link{display:inline-flex;gap:10px;align-items:center;min-height:44px;padding:0 16px 0 12px;border:1px solid var(--stone);border-radius:22px;text-decoration:none;font-size:14px;color:var(--emerald);transition:border-color .3s var(--ease)}
+.shape-link:hover{border-color:var(--emerald)}
+.shape-link svg{width:18px;height:22px}
+.shape-link span{color:var(--muted)}
+
+.changes{margin-top:96px;border-top:1px solid var(--stone);border-bottom:1px solid var(--stone)}
+.changes summary{cursor:pointer;padding:22px 0;font-weight:500;color:var(--emerald);list-style:none;display:flex;justify-content:space-between;gap:12px}
+.changes summary::-webkit-details-marker{display:none}
+.changes summary::after{content:"Показать";font-weight:400;color:var(--muted);font-size:14px}
+.changes[open] summary::after{content:"Скрыть"}
+.changes .inner{padding:0 0 28px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:40px}
+.changes ol{margin:0;padding-left:20px;display:grid;gap:10px;font-size:14px;max-width:72ch}
+.changes ol b{font-weight:600;color:var(--emerald)}
+.before img{width:100%;border:1px solid var(--stone);display:block;border-radius:3px}
+.before p{font-size:12.5px;color:var(--muted);margin:6px 0 14px}
+
+/* подвал */
+.foot{margin-top:96px;background:var(--olive);color:rgba(250,248,242,.78);padding-block:64px 120px}
+.foot-grid{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));gap:40px}
+.foot .logo{color:var(--ivory);display:inline-block;margin-bottom:16px}
+.foot p{margin:0 0 22px;font-size:14px;line-height:1.7}
+.foot .phone{display:block;font-size:22px;font-weight:300;color:var(--ivory);text-decoration:none;margin-bottom:12px}
+.foot .wa{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border:1px solid rgba(250,248,242,.4);border-radius:22px;color:var(--ivory);text-decoration:none;font-size:14px;font-weight:500}
+.foot .wa:hover{background:var(--ivory);color:var(--emerald)}
+.foot h3{font-size:15px;font-weight:500;color:var(--ivory);margin-bottom:12px;letter-spacing:0}
+.foot nav a{display:block;padding:6px 0;text-decoration:none;font-size:14.5px}
+.foot nav a:hover{color:var(--ivory);text-decoration:underline}
+.legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:48px;padding-top:22px;border-top:1px solid rgba(250,248,242,.16);font-size:13px}
+.legal a{text-decoration:none}
+
+/* нижняя плашка */
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--ivory);border-top:1px solid var(--stone);box-shadow:0 -10px 30px rgba(42,42,36,.08);
+  padding:10px var(--gutR) calc(10px + env(safe-area-inset-bottom, 0px)) var(--gut);transform:translateY(110%);transition:transform .5s var(--ease)}
+.mbar.show{transform:none}
+.mbar .wrap{display:flex;align-items:center;gap:20px}
+.mbar .p{display:flex;flex-direction:column;line-height:1.25;min-width:0}
+.mbar .p b{font-size:21px;font-weight:500;color:var(--emerald)}
+.mbar .p span{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mbar .btn{margin-left:auto;height:48px;flex:none}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom, 0px));background:var(--olive);color:var(--ivory);padding:13px 22px;border-radius:999px;font-size:14px;z-index:40;max-width:calc(100% - 40px);box-shadow:0 12px 30px rgba(42,42,36,.25)}
+.toast[hidden]{display:none}
+
+@media (max-width: 1200px){
+  .nav{gap:20px;font-size:13.5px}
+  .pdp{gap:40px}
+  .models{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width: 1040px){
+  .topbar,.nav{display:none}
+  .menu-btn{display:grid}
+  .tools{margin-left:auto}
+  .hdr .wrap{height:62px}
+  .pdp{grid-template-columns:minmax(0,1fr);gap:28px}
+  .media{position:static;display:block}
+  .stage{height:auto;aspect-ratio:1/1;margin-left:calc(-1 * var(--gut));margin-right:calc(-1 * var(--gutR));border-radius:0}
+  .thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}
+  .thumb{aspect-ratio:1/1}
+  .cap{margin-top:8px}
+  .buy{max-width:none}
+  .facts .wrap{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 0}
+  .fact:nth-child(3){border-left:0;padding-left:0}
+  .anat,.fit{grid-template-columns:minmax(0,1fr);gap:36px}
+  .anat-fig{max-width:520px}
+  .rev .wrap{grid-template-columns:minmax(0,1fr);gap:36px;padding-block:56px}
+  .rev-photo{aspect-ratio:4/3}
+  .track-line{grid-template-columns:minmax(0,1fr);gap:26px}
+  .track-line::before{top:22px;bottom:60px;left:21px;right:auto;width:2px;height:auto}
+  .track-line .bar{top:22px;left:21px;width:2px;height:0;transition:height 1.4s var(--ease)}
+  .track-line.go .bar{width:2px;height:calc(100% - 82px)}
+  .track-line li{padding:0 0 0 64px}
+  .track-line .node{position:absolute;left:0;top:0;margin:0}
+  .changes .inner{grid-template-columns:minmax(0,1fr)}
+  .foot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .foot-grid > :first-child{grid-column:1 / -1}
+}
+@media (max-width: 560px){
+  body{font-size:14.5px}
+  .logo{font-size:17px;letter-spacing:.26em}
+  .crumbs{font-size:12.5px;padding-block:12px}
+  .stage{aspect-ratio:5/4}
+  .stage img{object-position:50% 25%}
+  .size-tag{top:12px;left:12px;font-size:12.5px;padding:6px 11px}
+  .lamp{left:12px;bottom:12px}
+  .thumbs{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+  h1{font-size:38px}
+  .sizes{gap:6px}
+  .sizes .face{flex-direction:column;height:96px;gap:6px;padding:8px 2px}
+  .sizes .lab{align-items:center}
+  .sizes .lab b{font-size:13px}
+  .sizes .lab span{font-size:11.5px}
+  .bulbs{gap:6px}
+  .bulbs .lab b{font-size:10.5px;overflow-wrap:normal;letter-spacing:-.01em}
+  .bulbs .lab span{font-size:11px}
+  .sw .add{top:4px;right:4px;padding:1px 5px;font-size:10px}
+  .trust{grid-template-columns:minmax(0,1fr);gap:12px}
+  .rev-intro{padding:24px}
+  .tabs{gap:22px;margin-right:calc(-1 * var(--gutR))}
+  .keys{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .room text{font-size:30px}
+  .room .tag{font-size:12.5px;padding:6px 11px}
+  .chat-body{min-height:0}
+  .facts .wrap{grid-template-columns:minmax(0,1fr);gap:22px}
+  .fact{border-left:0;padding:0 0 22px;border-bottom:1px solid rgba(255,255,255,.22)}
+  .fact:last-child{border-bottom:0;padding-bottom:0}
+  section.block{padding-top:64px}
+  .models{gap:12px}
+  .foot-grid{grid-template-columns:minmax(0,1fr)}
+  .tip{max-width:180px}
+  .mbar .p span{display:none}
+}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important;animation:none!important} }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="star" viewBox="0 0 20 20"><path fill="currentColor" d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.7L10 14.8l-5.1 2.7 1-5.7-4.1-4 5.7-.8Z"/></symbol>
+  <symbol id="wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3Z"/></symbol>
+  <symbol id="chev" viewBox="0 0 12 12"><path d="M4.5 2.5 8 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.3"/></symbol>
+</svg>
+
+<div class="ambient" aria-hidden="true"></div>
+<div class="topbar bleed">
+  <div class="wrap">
+    <span>Зеркала собственного производства</span>
+    <nav aria-label="Служебные ссылки">
+      <a href="#">Войти</a><a href="#">Доставка и оплата</a><a href="#">Телефон и контакты</a>
+      <span class="phone tnum">+7 985 919-49-23</span>
+    </nav>
+  </div>
+</div>
+<header class="hdr bleed">
+  <div class="wrap">
+    <a class="logo" href="#">ALUMIRROR</a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#" aria-current="page">Каталог</a><a href="#">Индивидуальный заказ</a><a href="#">О бренде</a><a href="#">Производство</a><a href="#">Партнёрам</a><a href="#">Портфолио</a><a href="#">Контакты</a>
+    </nav>
+    <div class="tools">
+      <button class="icon-btn menu-btn" type="button" id="menuBtn" aria-expanded="false" aria-controls="mnav" aria-label="Меню"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+      <a class="icon-btn" href="https://wa.me/79859194923" target="_blank" rel="noopener" aria-label="Написать в WhatsApp"><svg aria-hidden="true"><use href="#wa"/></svg></a>
+      <button class="icon-btn" type="button" aria-label="Расчёт"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="badge tnum" id="cartBadge" hidden>0</span></button>
+    </div>
+  </div>
+  <nav class="mnav" id="mnav" aria-label="Меню сайта" hidden>
+    <div class="wrap">
+      <a href="#" aria-current="page">Каталог</a><a href="#">Индивидуальный заказ</a><a href="#">О бренде</a><a href="#">Производство</a><a href="#">Партнёрам</a><a href="#">Портфолио</a><a href="#">Контакты</a>
+      <div class="sub"><a href="#">Войти</a><a href="#">Доставка и оплата</a><a class="tnum" href="tel:+79859194923">+7 985 919-49-23</a></div>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap">
+  <nav class="crumbs" aria-label="Навигация">
+    <a href="#">Главная</a><svg aria-hidden="true"><use href="#chev"/></svg><a href="#">Каталог</a><svg aria-hidden="true"><use href="#chev"/></svg><a href="#">Фигурные зеркала</a><svg aria-hidden="true"><use href="#chev"/></svg><span>M1</span>
+  </nav>
+
+  <div class="pdp">
+    <div class="media">
+      <div class="stage" id="stage">
+        <img id="imgOff" src="img/m1-100x80-off.jpg" alt="Зеркало M1 с выключенной подсветкой в новогоднем интерьере">
+        <div class="lit" id="lit">
+          <img id="img3000" src="img/m1-100x80-3000.jpg" alt="Фигурное зеркало M1 с подсветкой над консолью, рядом новогодняя ёлка">
+          <img id="img4500" src="img/m1-100x80-4500.jpg" alt="" aria-hidden="true">
+          <img id="img6000" src="img/m1-100x80-6000.jpg" alt="" aria-hidden="true">
+        </div>
+        <span class="size-tag tnum" id="sizeTag" aria-live="polite">100 × 80 см</span>
+        <img id="imgDetail" src="" alt="" hidden>
+        <canvas class="snow" id="snow" aria-hidden="true"></canvas>
+        <div class="lamp" id="lamp">
+          <button class="switch" type="button" role="switch" aria-checked="false" id="lampSw">Подсветка<span class="track" aria-hidden="true"></span></button>
+        </div>
+        <div class="touch fresh" id="touch" hidden>
+          <div class="dial" id="dial" role="slider" tabindex="0" aria-label="Оттенок подсветки, сенсорная кнопка на полотне" aria-valuemin="3000" aria-valuemax="6000" aria-valuenow="4500" aria-valuetext="4500K, нейтральный"></div>
+          <div class="knob" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v6"/><path d="M7.1 6.6a7 7 0 1 0 9.8 0"/></svg></div>
+          <div class="knob-dot" id="knobDot" aria-hidden="true"></div>
+          <div class="tip"><b id="tipTitle">Покрутите, чтобы выбрать цвет</b><span class="tnum" id="tipK">4500K, нейтральный</span></div>
+        </div>
+      </div>
+      <div class="thumbs" id="thumbs"></div>
+      <p class="cap" id="cap"></p>
+    </div>
+
+    <div class="buy">
+      <span class="chip">Фигурное · с подсветкой</span>
+      <h1>Зеркало M1</h1>
+      <div class="price-row"><span class="price tnum" id="price" aria-live="polite">13 500 ₽</span><span class="art tnum" id="art">арт. Ф10080М1Х</span></div>
+      <p class="desc">Мягкая форма без рамы и ровный свет по контуру. Включается взмахом руки, яркость регулируется.</p>
+      <hr class="sep">
+
+      <fieldset class="grp">
+        <legend><span>Размер:<span class="val tnum" id="sizeVal">100 × 80 см</span></span><a href="#h-fit">Примерить на стене</a></legend>
+        <div class="sizes" id="sizeOpts"></div>
+      </fieldset>
+
+      <fieldset class="grp">
+        <legend><span>Цвет света:<span class="val tnum" id="lightK">холодный, 6000K</span></span></legend>
+        <div class="bulbs" id="lightOpts"></div>
+        <p class="hint" id="controlHint"></p>
+      </fieldset>
+
+      <fieldset class="grp">
+        <legend><span>Подсветка:<span class="val" id="typeVal">контурная</span></span></legend>
+        <div class="chips" id="typeOpts"></div>
+        <p class="hint" id="typeHint"></p>
+      </fieldset>
+
+      <div class="ctas">
+        <button class="btn btn-primary" type="button" id="addBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5.5 8h13l-1 12.5h-11L5.5 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>Добавить в расчёт</button>
+        <button class="btn btn-sq" type="button" id="favBtn" aria-pressed="false" aria-label="В избранное"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg></button>
+      </div>
+      <ul class="trust">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 21V11l5 3v-3l5 3v-3l5 3V4h3v17Z"/></svg><span><b>За 3 рабочих дня</b>изготовим на своём производстве</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 7h12v10H2ZM14 10h4l4 4v3h-8Z"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg><span><b>Москва за 24–48 ч</b>в регионы — СДЭК или Ozon</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.5 3.2 8 7.5 9.5 4.3-1.5 7.5-5 7.5-9.5V6Z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/></svg><span><b>Гарантия 12 месяцев</b>на подсветку и сборку</span></li>
+      </ul>
+      <p class="ask">После заявки менеджер подтвердит комплект и доставку. Есть вопрос? <a href="https://wa.me/79859194923" target="_blank" rel="noopener">Напишите в WhatsApp</a></p>
+    </div>
+  </div>
+</main>
+
+<section class="facts bleed" aria-label="Коротко о зеркалах ALUMIRROR">
+  <div class="wrap">
+    <div class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M3 21V11l5 3v-3l5 3v-3l5 3V4h3v17Z"/></svg><div><b>Своё производство</b><span>Контролируем каждый этап — от раскроя полотна до упаковки</span></div></div>
+    <div class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 3.5c3 4 5.5 7 5.5 10a5.5 5.5 0 0 1-11 0c0-3 2.5-6 5.5-10Z"/></svg><div><b>Влагостойкая система</b><span>Подходит для ванных и влажных помещений</span></div></div>
+    <div class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M9 3v5M15 3v5M6.5 8h11v4a5.5 5.5 0 0 1-11 0Z"/><path d="M12 17.5V21"/></svg><div><b>Включается в розетку</b><span>Крепления и провод с вилкой в комплекте, электрик не нужен</span></div></div>
+    <div class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5Z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/></svg><div><b>Доставка по России</b><span>Многоуровневая упаковка и проверенные службы доставки</span></div></div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="block" aria-labelledby="h-anat">
+    <div class="anat">
+      <div>
+        <h2 id="h-anat">О зеркале M1</h2>
+        <div class="tabs" role="tablist" aria-label="О зеркале M1" id="tabs">
+          <button type="button" role="tab" id="t-dev" aria-controls="p-dev" aria-selected="true">Устройство</button>
+          <button type="button" role="tab" id="t-spec" aria-controls="p-spec" aria-selected="false" tabindex="-1">Характеристики</button>
+          <button type="button" role="tab" id="t-size" aria-controls="p-size" aria-selected="false" tabindex="-1">Размеры и цены</button>
+          <button type="button" role="tab" id="t-del" aria-controls="p-del" aria-selected="false" tabindex="-1">Доставка</button>
+        </div>
+
+        <div class="panel" role="tabpanel" id="p-dev" aria-labelledby="t-dev">
+          <p class="lead">Фигурное зеркало с подсветкой — акцент для интерьера и удобный свет каждый день. Нажмите на точки на фото.</p>
+          <ul class="feat" id="feat">
+            <li><button type="button" data-f="0" aria-expanded="true"><span class="dot"></span>Подсветка с рассеивателем<svg class="pm" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg></button><div class="ans"><div><p>Светодиодная лента под оптическим рассеивателем даёт ровный мягкий свет по всему контуру, без пятен и бликов. Яркость регулируется.</p></div></div></li>
+            <li><button type="button" data-f="1" aria-expanded="false"><span class="dot"></span>Бесконтактный датчик<svg class="pm" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg></button><div class="ans"><div><p>Свет включается взмахом руки у края зеркала, отпечатков на полотне не остаётся. У «Настраиваемого» вместо датчика сенсорная кнопка на полотне — ей же меняется оттенок.</p></div></div></li>
+            <li><button type="button" data-f="2" aria-expanded="false"><span class="dot"></span>Влагостойкое полотно<svg class="pm" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg></button><div class="ans"><div><p>Герметичный корпус и уплотнение ленты, поэтому зеркало подходит для ванной и влажных помещений.</p></div></div></li>
+            <li><button type="button" data-f="3" aria-expanded="false"><span class="dot"></span>Монтаж и подключение<svg class="pm" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg></button><div class="ans"><div><p>Крепления в комплекте. Зеркало включается в обычную розетку проводом с вилкой, электрик не нужен.</p></div></div></li>
+          </ul>
+        </div>
+
+        <div class="panel" role="tabpanel" id="p-spec" aria-labelledby="t-spec" hidden>
+          <div class="keys" id="keys"></div>
+          <table class="specs"><tbody id="specs"></tbody></table>
+        </div>
+
+        <div class="panel" role="tabpanel" id="p-size" aria-labelledby="t-size" hidden>
+          <table class="specs sz-t"><thead><tr><th scope="col">Высота × ширина</th><th scope="col">Цена</th><th scope="col">Вес</th></tr></thead><tbody id="sizeTable"></tbody></table>
+          <p class="hint">Цена указана для холодного, тёплого и нейтрального света. Настраиваемый свет — плюс 400 ₽.</p>
+          <a class="ulink" href="#h-fit" style="margin-top:14px">Посмотреть размеры на стене</a>
+        </div>
+
+        <div class="panel" role="tabpanel" id="p-del" aria-labelledby="t-del" hidden>
+          <ul class="list">
+            <li><b>Изготовление</b>От 3 рабочих дней на своём производстве.</li>
+            <li><b>Москва и область</b>Курьером до двери за 24–48 часов после готовности.</li>
+            <li><b>Другие города</b>СДЭК или Ozon, срок назовёт менеджер.</li>
+            <li><b>Упаковка</b>Многоуровневая, для перевозки на любое расстояние.</li>
+            <li><b>После заявки</b>Менеджер подтвердит комплект, сроки и стоимость доставки.</li>
+          </ul>
+        </div>
+      </div>
+
+      <figure class="anat-fig" id="anatFig">
+        <img src="img/ng-3000.jpg" alt="Зеркало M1 с тёплой подсветкой над консолью" loading="lazy">
+        <button class="hot ping" type="button" data-f="0" style="left:67%;top:28%" aria-label="Подсветка с рассеивателем" aria-pressed="true"><i></i></button>
+        <button class="hot" type="button" data-f="1" style="left:31%;top:44%" aria-label="Бесконтактный датчик" aria-pressed="false"><i></i></button>
+        <button class="hot" type="button" data-f="2" style="left:50%;top:30%" aria-label="Влагостойкое полотно" aria-pressed="false"><i></i></button>
+        <button class="hot" type="button" data-f="3" style="left:52%;top:57%" aria-label="Монтаж и подключение" aria-pressed="false"><i></i></button>
+      </figure>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-fit">
+    <div class="fit-head">
+      <div>
+        <h2 id="h-fit">Как <span id="scaleTitle">100 × 80 см</span> смотрится на стене</h2>
+        <p>Рядом дверь, человек и консоль — всё в одном масштабе с зеркалом. Переключайте размер и сравнивайте на глаз.</p>
+      </div>
+      <div class="pills" id="fitPills" role="group" aria-label="Размер на примерке"></div>
+    </div>
+    <div class="room" id="room">
+      <svg viewBox="0 0 1000 520" role="img" aria-label="Зеркало на стене рядом с дверью высотой 200 см, человеком ростом 170 см и консолью шириной 100 см" id="roomSvg"></svg>
+      <span class="tag tnum" id="roomTag">100 × 80 см</span>
+    </div>
+    <p class="fit-note">Дверь 200 см, рост 170 см, консоль шириной 100 см на высоте 80 см. Центр зеркала — на высоте 160 см.</p>
+  </section>
+</div>
+
+<section class="rev bleed" aria-labelledby="h-rev">
+  <div class="wrap">
+    <div class="rev-intro">
+      <h2 id="h-rev">Что пишут покупатели</h2>
+      <p>Отзывы покупателей ALUMIRROR — слово в слово.</p>
+      <figure class="rev-photo"><img src="img/ng-right.jpg" alt="Зеркало M1 с тёплой подсветкой в новогоднем интерьере" loading="lazy"></figure>
+    </div>
+    <div class="chat" id="chat">
+      <div class="chat-top"><span class="chat-ava" aria-hidden="true">A</span><div><b>ALUMIRROR</b><span>отзывы покупателей</span></div></div>
+      <div class="chat-body" id="chatBody">
+        <div class="bub">Зеркало обалденное!<br>Пришло во время, курьер доставил до двери. Хорошо упаковано, без брака! Довольная. Рекомендую!</div>
+        <div class="bub">Очень красивое зеркало, смотрится стильно. Отлично упаковано, монтаж простой. Все для монтажа было в комплекте. Покупкой очень довольна</div>
+        <div class="bub">Советую ❤️<br>Зеркало качественное, очень хорошо вписалось в прихожей. Не искажает!</div>
+        <div class="typing" aria-hidden="true"><i></i><i></i><i></i></div>
+      </div>
+      <div class="chat-foot"><span>Хотите живые фото или видео от покупателей?</span><a href="https://wa.me/79859194923" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Спросить в WhatsApp</a></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="block" aria-labelledby="h-eta">
+    <div class="eta-head">
+      <h2 id="h-eta">Закажете сегодня — привезём <em id="etaHead">…</em></h2>
+      <div class="seg" id="etaSeg" data-v="msk" style="min-width:320px">
+        <span class="seg-thumb" aria-hidden="true"></span>
+        <label class="opt"><input type="radio" name="city" value="msk" checked><span class="face">Москва и область</span></label>
+        <label class="opt"><input type="radio" name="city" value="reg"><span class="face">Другой город</span></label>
+      </div>
+    </div>
+    <ol class="track-line" id="track">
+      <span class="bar" aria-hidden="true"></span>
+      <li><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></span><span class="when tnum" id="d1">Сегодня</span><b>Добавляете в расчёт</b><span class="t">Выбираете размер, цвет света и подсветку и отправляете заявку.</span></li>
+      <li><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 5h16v11H8l-4 4Z"/></svg></span><span class="when">После заявки</span><b>Подтверждаем детали</b><span class="t">Менеджер уточнит комплект, сроки и стоимость доставки.</span></li>
+      <li><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 21V11l5 3v-3l5 3v-3l5 3V4h3v17Z"/></svg></span><span class="when tnum" id="d3">…</span><b>Изготавливаем</b><span class="t">От 3 рабочих дней на своём производстве.</span></li>
+      <li><span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 7h12v10H2ZM14 10h4l4 4v3h-8Z"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></span><span class="when tnum" id="d4">…</span><b id="d4t">Привозим</b><span class="t" id="d4s">Курьером до двери за 24–48 часов после готовности.</span></li>
+    </ol>
+    <p class="eta-note">Даты примерные: считаем от сегодняшнего дня, без выходных. Точную дату подтвердит менеджер.</p>
+  </section>
+
+  <section class="block" aria-labelledby="h-models">
+    <div class="head-row">
+      <h2 id="h-models">Похожие модели</h2>
+      <a class="ulink" href="#">Все фигурные зеркала</a>
+    </div>
+    <div class="models" id="models"></div>
+    <div class="other">
+      <span class="lbl">Другие формы:</span>
+      <a class="shape-link" href="#"><svg viewBox="0 0 38 46" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 44V19a13 13 0 0 1 26 0v25Z"/></svg>Арочное M5 <span class="tnum">от 11 500 ₽</span></a>
+      <a class="shape-link" href="#"><svg viewBox="0 0 38 46" fill="none" stroke="currentColor" stroke-width="2"><circle cx="19" cy="23" r="16"/></svg>Круглое M7 <span class="tnum">от 11 800 ₽</span></a>
+      <a class="shape-link" href="#"><svg viewBox="0 0 38 46" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="4" width="24" height="38"/></svg>Прямоугольное <span class="tnum">от 2 800 ₽</span></a>
+    </div>
+  </section>
+
+  <details class="changes">
+    <summary>Что изменено по сравнению с текущей страницей</summary>
+    <div class="inner">
+      <ol>
+        <li><b>Спокойная палитра:</b> светлый тёплый фон, почти чёрный текст, приглушённая олива только на кнопках и выбранных вариантах, шалфейная полоса фактов.</li>
+        <li><b>Карточка как в хороших магазинах:</b> миниатюры слева от фото, под заголовком цена и короткое описание, выбранное значение видно рядом с названием группы, под кнопкой — три коротких условия.</li>
+        <li><b>Размер виден на фото:</b> при выборе размера главное фото плавно меняется — та же комната, консоль и ёлка, а зеркало становится 100 × 80, 130 × 90, 140 × 100 или 150 × 110. В углу фото — метка размера.</li>
+        <li><b>Цвет света — настоящими образцами:</b> крупные планы свечения M1 на стене (3000K, 4500K, 6000K) вместо нарисованных кружков; у «Настраиваемого» — все три оттенка и сенсорная кнопка.</li>
+        <li><b>«О зеркале M1» — вкладками:</b> устройство с точками на фото, характеристики, размеры и цены, доставка.</li>
+        <li><b>Было 10 групп выбора, стало 3:</b> размер, цвет света, подсветка. Форма и модель вынесены в «Похожие модели» и «Другие формы».</li>
+        <li><b>Свет включается при открытии страницы</b>, рядом выключатель. У «Настраиваемого» на зеркале появляется сенсорная кнопка — её можно покрутить.</li>
+        <li><b>Под кнопкой сказано, что будет дальше:</b> менеджер подтвердит комплект и доставку, сроки изготовления и доставки рядом.</li>
+        <li><b>Блок «Закажете сегодня — привезём …»</b> считает примерные даты изготовления и доставки от сегодняшнего дня, с переключателем Москва / другой город.</li>
+        <li><b>Отзывы — как переписка:</b> три настоящих отзыва покупателей появляются сообщениями по одному, рядом кнопка попросить живые фото в WhatsApp.</li>
+        <li><b>Примерка на стене:</b> рядом с зеркалом дверь 200 см, человек 170 см и консоль 100 см в одном масштабе — размер понятен на глаз.</li>
+        <li><b>Живой фон:</b> мягкое свечение медленно плывёт и меняет цвет вместе с выбранным светом.</li>
+        <li><b>Мгновенный пересчёт</b> цены, артикула, характеристик и схемы на стене.</li>
+        <li><b>Короткое название</b> «Зеркало M1» вместо строки из 12 слов.</li>
+        <li><b>Плашка с ценой снизу</b> появляется, когда кнопка ушла из вида.</li>
+      </ol>
+      <div class="before">
+        <img src="img/live-screen.png" alt="Первый экран текущей страницы M1 на alumirror.ru">
+        <p>Сейчас: первый экран страницы M1</p>
+        <img src="img/before-config.png" alt="Текущий блок выбора параметров на alumirror.ru">
+        <p>Сейчас: блок выбора, 10 групп</p>
+      </div>
+    </div>
+  </details>
+</div>
+
+<footer class="foot bleed">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="#">ALUMIRROR</a>
+        <p>Точность формы.<br>Свет, который создаёт атмосферу.<br>Ваше пространство.</p>
+        <a class="phone tnum" href="tel:+79859194923">+7 985 919-49-23</a>
+        <a class="wa" href="https://wa.me/79859194923" target="_blank" rel="noopener"><svg width="18" height="18" aria-hidden="true"><use href="#wa"/></svg>Написать в WhatsApp</a>
+      </div>
+      <nav aria-labelledby="f1"><h3 id="f1">Зеркала</h3><a href="#">Каталог</a><a href="#">Индивидуальный заказ</a><a href="#">Избранное</a><a href="#">Помощь с выбором</a></nav>
+      <nav aria-labelledby="f2"><h3 id="f2">О компании</h3><a href="#">О бренде</a><a href="#">Производство</a><a href="#">Партнёрам</a><a href="#">Контакты</a></nav>
+      <nav aria-labelledby="f3"><h3 id="f3">Покупателям</h3><a href="#">Доставка и оплата</a><a href="#">Гарантия и уход</a><a href="#">Реквизиты и документы</a></nav>
+    </div>
+    <div class="legal"><span>© ALUMIRROR, 2026</span><a href="#">Политика конфиденциальности</a></div>
+  </div>
+</footer>
+
+<div class="mbar" id="mbar" aria-label="Итог">
+  <div class="wrap">
+    <div class="p"><b class="tnum" id="mPrice">13 500 ₽</b><span id="mSum">Зеркало M1, 100 × 80 см, холодный свет</span></div>
+    <button class="btn btn-primary" type="button" id="mAdd">Добавить в расчёт</button>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function(){
+  var SIZES=[
+    {id:'s1',n:'100x80',h:100,w:80,p:13500,kg:'18,7 кг',fy:.46},
+    {id:'s2',n:'130x90',h:130,w:90,p:15400,kg:null,fy:.43},
+    {id:'s3',n:'140x100',h:140,w:100,p:16500,kg:null,fy:.408},
+    {id:'s4',n:'150x110',h:150,w:110,p:17700,kg:null,fy:.40}
+  ];
+  var LIGHTS=[
+    {id:'warm',name:'Тёплый',k:'3000K',kv:3000,code:'Т',add:0,orb:'radial-gradient(circle at 35% 30%,#FFF4E2,#FFC27A 55%,#F0A04B)',glow:'rgba(255,176,96,.9)'},
+    {id:'neutral',name:'Нейтральный',k:'4500K',kv:4500,code:'Н',add:0,orb:'radial-gradient(circle at 35% 30%,#FFFFFF,#FFEFD2 55%,#F2D8A8)',glow:'rgba(255,232,190,.95)'},
+    {id:'cold',name:'Холодный',k:'6000K',kv:6000,code:'Х',add:0,orb:'radial-gradient(circle at 35% 30%,#FFFFFF,#E4EEFF 55%,#B9CFF5)',glow:'rgba(190,214,255,.95)'},
+    {id:'tune',name:'Настраиваемый',k:'+400 ₽',kv:null,code:'свет',add:400,orb:'conic-gradient(from 200deg,#FFC27A,#FFEFD2,#E4EEFF,#B9CFF5,#FFC27A)',glow:'rgba(240,220,200,.95)'}
+  ];
+  var TYPES=[
+    {id:'contour',name:'Контурная',desc:'Мягкий ореол на стене вокруг зеркала.',code:''},
+    {id:'front',name:'Фронтальная',desc:'Свет идёт через полотно и ровно освещает лицо.',code:'фр'}
+  ];
+  var DETAILS=[
+    {src:'img/ng-far.jpg',label:'Издалека, тёплый свет 3000K',style:'object-position:50% 38%'},
+    {src:'img/ng-left.jpg',label:'Вид слева, тёплый свет 3000K',style:'object-position:50% 38%'},
+    {src:'img/ng-right.jpg',label:'Вид справа, тёплый свет 3000K',style:'object-position:50% 38%'}
+  ];
+  var MODELS=[
+    {img:'img/m2.jpg',name:'Зеркало M2',sz:'от 150 × 65 до 180 × 80 см',from:14500},
+    {img:'img/m3.jpg',name:'Зеркало M3',sz:'от 100 × 90 до 130 × 110 см',from:14000,hit:true},
+    {img:'img/m4.jpg',name:'Зеркало M4',sz:'от 120 × 55 до 198 × 88 см',from:13000},
+    {img:'img/m9.jpg',name:'Зеркало M9',sz:'от 80 × 60 до 100 × 75 см',from:11800}
+  ];
+  var state={size:'s1',light:'cold',type:'contour',lamp:false,tuneK:4500,touched:false,view:'main'};
+  var $=function(id){return document.getElementById(id)};
+  var fmt=function(n){return n.toLocaleString('ru-RU').replace(/ | /g,' ')+' ₽'};
+  var find=function(arr,id){for(var i=0;i<arr.length;i++){if(arr[i].id===id)return arr[i]}return arr[0]};
+  function kName(k){return k<=3600?'тёплый':k>=5400?'холодный':'нейтральный'}
+
+  /* силуэт M1 */
+  function blobPath(x,y,w,h){
+    var P=[[48,2],[66,0,74,10,72,22],[70,32,84,36,86,52],[88,70,74,74,66,86],[58,98,30,100,18,90],[6,80,14,64,12,52],[10,40,2,30,10,18],[18,6,32,3,48,2]];
+    var sx=w/88, sy=h/100; var t=function(px,py){return (x+px*sx).toFixed(1)+' '+(y+py*sy).toFixed(1)};
+    var d='M'+t(P[0][0],P[0][1]);
+    for(var i=1;i<P.length;i++){var c=P[i];d+=' C'+t(c[0],c[1])+' '+t(c[2],c[3])+' '+t(c[4],c[5]);}
+    return d+' Z';
+  }
+
+  function radio(name,item,checked,inner){
+    var id=name+'-'+item.id;
+    return '<label class="opt" for="'+id+'"><input type="radio" name="'+name+'" id="'+id+'" value="'+item.id+'"'+(checked?' checked':'')+'><span class="face">'+inner+'</span></label>';
+  }
+  function buildOptions(){
+    var K=34/150; // одинаковый масштаб для всех силуэтов
+    $('sizeOpts').innerHTML=SIZES.map(function(s){
+      var w=s.w*K, h=s.h*K;
+      var svg='<svg width="'+w.toFixed(1)+'" height="'+h.toFixed(1)+'" viewBox="0 0 '+w.toFixed(1)+' '+h.toFixed(1)+'" aria-hidden="true"><path class="shape" d="'+blobPath(0,0,w,h)+'"/></svg>';
+      return radio('size',s,s.id===state.size,svg+'<span class="lab"><b class="tnum">'+s.h+' × '+s.w+'</b><span class="tnum">'+fmt(s.p)+'</span></span>');
+    }).join('');
+    $('lightOpts').innerHTML=LIGHTS.map(function(l){
+      var sw=l.kv
+        ? '<span class="sw"><img src="img/sw-'+l.kv+'.jpg" alt=""></span>'
+        : '<span class="sw mix"><img src="img/sw-3000.jpg" alt=""><img src="img/sw-4500.jpg" alt=""><img src="img/sw-6000.jpg" alt=""><i class="ring"></i><em class="add tnum">+400 ₽</em></span>';
+      var nm=l.id==='tune'?'Настраи­ваемый':l.name;
+      return radio('light',l,l.id===state.light,sw+'<span class="lab"><b>'+nm+'</b><span class="tnum">'+(l.kv?l.k:'3000–6000K')+'</span></span>');
+    }).join('');
+    var ICON={contour:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 4c4 0 6 2.5 6 6.5S15.5 20 12 20s-6-4.5-6-9.5S8 4 12 4Z"/><path d="M12 1.5c5.5 0 8.5 3.5 8.5 9S17 22.5 12 22.5 3.5 16.5 3.5 10.5 6.5 1.5 12 1.5Z" opacity=".45" stroke-dasharray="2 2.5"/></svg>',
+              front:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3c4.5 0 7 2.8 7 7.5S16 21 12 21s-7-5.5-7-10.5S7.5 3 12 3Z"/><path d="M9 9.5l1.5 1.5M13 8l2.5 2.5M9.5 13.5 12 16" opacity=".7"/></svg>'};
+    $('typeOpts').innerHTML=TYPES.map(function(t){
+      return radio('type',t,t.id===state.type,ICON[t.id]+t.name);
+    }).join('');
+    $('fitPills').innerHTML=SIZES.map(function(s){
+      return '<button type="button" class="pill tnum" data-s="'+s.id+'" aria-pressed="'+(s.id===state.size)+'">'+s.h+' × '+s.w+'</button>';
+    }).join('');
+    var th=[{key:'main',img:'img/ng-3000.jpg',label:'Прямо, с выбором света',style:'object-position:50% 38%'}].concat(DETAILS.map(function(d,i){return {key:'d'+i,img:d.src,label:d.label,style:d.style}}));
+    $('thumbs').innerHTML=th.map(function(t){
+      return '<button type="button" class="thumb" data-k="'+t.key+'" aria-label="'+t.label+'"'+(t.key===state.view?' aria-current="true"':'')+'><img src="'+t.img+'" alt="" style="'+t.style+'"></button>';
+    }).join('');
+    var heart='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg>';
+    $('models').innerHTML=MODELS.map(function(m){
+      return '<div class="model"><div class="ph"><img src="'+m.img+'" alt="'+m.name+' в интерьере" loading="lazy">'+(m.hit?'<span class="hit">Хит</span>':'')+'</div>'+
+        '<div class="body"><a class="name" href="#">'+m.name+'</a><span class="sz tnum">'+m.sz+'</span><span class="from tnum">от '+fmt(m.from)+'</span>'+
+        '<button class="fav" type="button" aria-pressed="false" aria-label="В избранное: '+m.name+'">'+heart+'</button></div></div>';
+    }).join('');
+  }
+
+  /* примерка: 1 см = 1,8 px, пол на y=470 */
+  var PX=1.8, FLOOR=470, MCX=520, MCY=FLOOR-160*PX;
+  function buildRoom(){
+    var o='<defs>'+
+      '<linearGradient id="wallG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3ECE3"/><stop offset="1" stop-color="#E9DED1"/></linearGradient>'+
+      '<linearGradient id="glassG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#D3DCE0"/><stop offset=".42" stop-color="#F3F6F7"/><stop offset=".5" stop-color="#D6DEE2"/><stop offset="1" stop-color="#B9C6CC"/></linearGradient>'+
+      '<filter id="blurG" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="10"/></filter>'+
+      '<filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>'+
+      '</defs>';
+    o+='<rect width="1000" height="520" fill="url(#wallG)"/>';
+    o+='<rect y="'+FLOOR+'" width="1000" height="50" fill="#D9C7B1"/>';
+    for(var px=40;px<1000;px+=120){o+='<line x1="'+px+'" y1="'+FLOOR+'" x2="'+(px-30)+'" y2="520" stroke="#CDB9A1" stroke-width="1"/>';}
+    o+='<rect y="'+(FLOOR-10)+'" width="1000" height="10" fill="#FBF7F1"/>';
+    /* дверь 80 × 200 */
+    var dx=70, dw=80*PX, dh=200*PX, dt=FLOOR-dh;
+    o+='<rect x="'+(dx-8)+'" y="'+(dt-8)+'" width="'+(dw+16)+'" height="'+(dh+8)+'" fill="#FAF6F0" stroke="#D6C7B5"/>';
+    o+='<rect x="'+dx+'" y="'+dt+'" width="'+dw+'" height="'+dh+'" fill="#EFE6DA" stroke="#D6C7B5"/>';
+    o+='<rect x="'+(dx+16)+'" y="'+(dt+18)+'" width="'+(dw-32)+'" height="'+(dh*0.42)+'" rx="2" fill="none" stroke="#DCCDBA"/>';
+    o+='<rect x="'+(dx+16)+'" y="'+(dt+dh*0.52)+'" width="'+(dw-32)+'" height="'+(dh*0.42)+'" rx="2" fill="none" stroke="#DCCDBA"/>';
+    o+='<rect x="'+(dx+dw-26)+'" y="'+(FLOOR-105*PX)+'" width="16" height="5" rx="2.5" fill="#B08D57"/>';
+    o+='<text x="'+(dx+dw/2)+'" y="'+(dt-18)+'" text-anchor="middle" font-size="14" fill="#6E5D51">дверь 200 см</text>';
+    /* консоль 100 см на высоте 80 см, пуф, ваза */
+    var cw=100*PX, ct=FLOOR-80*PX;
+    o+='<rect x="'+(MCX-cw/2)+'" y="'+ct+'" width="'+cw+'" height="16" rx="2" fill="#FBF7F1" stroke="#D9CBBB"/>';
+    var vx=MCX-cw/2+18;
+    o+='<path d="M'+(vx-9)+' '+(ct-1)+'c-6-10-4-22 4-28h10c8 6 10 18 4 28Z" fill="#EADFD2" stroke="#D2C2AF"/>';
+    o+='<path d="M'+vx+' '+(ct-29)+'c-3-10-10-16-18-20M'+(vx+1)+' '+(ct-29)+'c1-10 4-18 10-24" stroke="#7E8F6E" stroke-width="1.6" fill="none" stroke-linecap="round"/>';
+    o+='<rect x="'+(MCX+cw/2-46)+'" y="'+(ct-14)+'" width="30" height="14" rx="2" fill="#E5D9CB" stroke="#D2C2AF"/>';
+    o+='<rect x="'+(MCX-40)+'" y="'+(FLOOR-46*PX)+'" width="80" height="'+(46*PX)+'" rx="22" fill="#F4ECE2" stroke="#E0D2C2"/>';
+    o+='<text x="'+MCX+'" y="'+(ct+36)+'" text-anchor="middle" font-size="14" fill="#6E5D51">консоль 100 см</text>';
+    /* человек 170 см */
+    var hx=840, ht=FLOOR-170*PX;
+    o+='<g fill="#CDBBA8">'+
+      '<circle cx="'+hx+'" cy="'+(ht+17)+'" r="17"/>'+
+      '<rect x="'+(hx-33)+'" y="'+(ht+40)+'" width="66" height="130" rx="26"/>'+
+      '<rect x="'+(hx-47)+'" y="'+(ht+46)+'" width="12" height="118" rx="6"/>'+
+      '<rect x="'+(hx+35)+'" y="'+(ht+46)+'" width="12" height="118" rx="6"/>'+
+      '<rect x="'+(hx-27)+'" y="'+(ht+150)+'" width="25" height="'+(170*PX-150)+'" rx="11"/>'+
+      '<rect x="'+(hx+2)+'" y="'+(ht+150)+'" width="25" height="'+(170*PX-150)+'" rx="11"/></g>';
+    o+='<text x="'+hx+'" y="'+(ht-14)+'" text-anchor="middle" font-size="14" fill="#6E5D51">рост 170 см</text>';
+    /* зеркало: базовый размер 150 × 110 см, масштабируется под выбранный */
+    var bw=110*PX, bh=150*PX, p=blobPath(-bw/2,-bh/2,bw,bh);
+    o+='<g transform="translate('+MCX+' '+MCY+')"><g class="mir" id="mir">'+
+      '<path class="mir-glow" d="'+p+'" fill="none" stroke-width="18" filter="url(#blurG)" opacity=".95"/>'+
+      '<path class="mir-glow" d="'+p+'" fill="none" stroke-width="4" filter="url(#soft)"/>'+
+      '<path d="'+p+'" fill="url(#glassG)" stroke="#A9B6BB" stroke-width="1.2" vector-effect="non-scaling-stroke"/>'+
+      '</g></g>';
+    $('roomSvg').innerHTML=o;
+  }
+  function drawRoom(s){
+    var m=$('mir'); if(!m) return;
+    m.style.transform='scale('+(s.w/110).toFixed(4)+','+(s.h/150).toFixed(4)+')';
+    var tag=$('roomTag'); tag.textContent=s.h+' × '+s.w+' см';
+    tag.style.left=(MCX/1000*100)+'%';
+    tag.style.top=((MCY-s.h*PX/2-16)/520*100).toFixed(2)+'%';
+  }
+
+  function render(){
+    var s=find(SIZES,state.size), l=find(LIGHTS,state.light), t=find(TYPES,state.type);
+    var price=s.p+l.add, tune=l.id==='tune';
+    var art='Ф'+s.h+s.w+'М1'+l.code+t.code;
+    $('price').textContent=fmt(price);
+    $('mPrice').textContent=fmt(price);
+    $('art').textContent='арт. '+art;
+    $('lightK').textContent=tune?'настраиваемый, 3000–6000K, +400 ₽':l.name.toLowerCase()+', '+l.k;
+    $('sizeVal').textContent=s.h+' × '+s.w+' см';
+    $('typeVal').textContent=t.name.toLowerCase();
+    $('sizeTable').innerHTML=SIZES.map(function(z){return '<tr'+(z.id===s.id?' class="on"':'')+'><td class="tnum">'+z.h+' × '+z.w+' см</td><td class="tnum">'+fmt(z.p)+'</td><td class="tnum">'+(z.kg||'уточнит менеджер')+'</td></tr>'}).join('');
+    $('typeOpts').setAttribute('data-v',t.id);
+    var kk=tune?state.tuneK:l.kv, tt=(kk-3000)/3000;
+    var lc=[Math.round(255-50*tt),Math.round(176+48*tt),Math.round(96+159*tt)];
+    document.documentElement.style.setProperty('--lc',lc.join(','));
+    var pl=document.querySelectorAll('#fitPills .pill'); for(var pi=0;pi<pl.length;pi++) pl[pi].setAttribute('aria-pressed',String(pl[pi].getAttribute('data-s')===s.id));
+    var keys=[['Размер',s.h+' × '+s.w+' см'],['Свет',tune?'3000–6000K':l.name+' '+l.k],['Подсветка',t.name],['Включение',tune?'Сенсорная кнопка':'Взмахом руки'],['Вес',s.kg||'уточнит менеджер'],['Подключение','В розетку']];
+    $('keys').innerHTML=keys.map(function(r){return '<div class="key"><span>'+r[0]+'</span><b class="tnum">'+r[1]+'</b></div>'}).join('');
+    $('mSum').textContent='Зеркало M1, '+s.h+' × '+s.w+' см, '+(tune?'настраиваемый':l.name.toLowerCase())+' свет';
+    $('controlHint').textContent=tune
+      ? 'Оттенок меняется сенсорной кнопкой на полотне: коснитесь и покрутите. Попробуйте на фото слева.'
+      : 'Включается взмахом руки, яркость регулируется.';
+    $('typeHint').textContent=t.desc;
+    $('scaleTitle').textContent=s.h+' × '+s.w+' см';
+    var rows=[['Вид зеркала','Настенное'],['Форма','Фигурное'],['Рама','Нет'],['Подсветка',t.name+', '+l.name.toLowerCase()+' '+l.k],['Управление',tune?'Сенсорная кнопка на полотне':'Бесконтактный сенсор'],['Размер (В × Ш)',s.h+' × '+s.w+' см'],['Материал','МДФ'],['Вес',s.kg||'Уточнит менеджер'],['Яркость','Регулируемая'],['Комплектация','Зеркало, крепления, провод с вилкой'],['Конструкция','Одностороннее'],['Страна-изготовитель','Россия'],['Артикул',art]];
+    $('specs').innerHTML=rows.map(function(r){return '<tr><th scope="row">'+r[0]+'</th><td class="tnum">'+r[1]+'</td></tr>'}).join('');
+    drawRoom(s);
+    renderStage();
+  }
+
+  /* сцена: интерьер со светом / без, крупные планы */
+  var START=-135, SPAN=270;
+  function renderDial(){
+    var k=state.tuneK, a=(START+(k-3000)/3000*SPAN)*Math.PI/180, r=33;
+    $('knobDot').style.transform='translate('+(Math.sin(a)*r).toFixed(1)+'px,'+(-Math.cos(a)*r).toFixed(1)+'px)';
+    var d=$('dial'); d.setAttribute('aria-valuenow',k); d.setAttribute('aria-valuetext',k+'K, '+kName(k));
+    $('tipK').textContent=k+'K, '+kName(k);
+    $('tipTitle').textContent=state.touched?'Оттенок '+k+'K':'Покрутите, чтобы выбрать цвет';
+  }
+  /* фото меняется вместе с размером: одна и та же комната, зеркало в масштабе */
+  var shownSize=null;
+  function sizeSrc(t){return 'img/m1-'+find(SIZES,state.size).n+'-'+t+'.jpg';}
+  function nearK(){var l=find(LIGHTS,state.light),k=l.id==='tune'?state.tuneK:l.kv;return !state.lamp?'off':(k<3750?'3000':(k<5250?'4500':'6000'));}
+  function applySize(){
+    if(shownSize===state.size) return;
+    var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(shownSize!==null && !still){
+      var g=document.createElement('img'); g.className='ghost'; g.alt=''; g.setAttribute('aria-hidden','true');
+      g.src='img/m1-'+find(SIZES,shownSize).n+'-'+nearK()+'.jpg';
+      $('stage').insertBefore(g,$('snow'));
+      requestAnimationFrame(function(){requestAnimationFrame(function(){g.classList.add('out');});});
+      setTimeout(function(){if(g.parentNode)g.parentNode.removeChild(g);},900);
+    }
+    $('imgOff').src=sizeSrc('off'); $('img3000').src=sizeSrc('3000'); $('img4500').src=sizeSrc('4500'); $('img6000').src=sizeSrc('6000');
+    var s=find(SIZES,state.size), tag=$('sizeTag'); tag.textContent=s.h+' × '+s.w+' см';
+    tag.classList.remove('pop'); void tag.offsetWidth; if(shownSize!==null) tag.classList.add('pop');
+    shownSize=state.size;
+  }
+  function renderStage(){
+    applySize();
+    var l=find(LIGHTS,state.light), tune=l.id==='tune', main=state.view==='main';
+    var k=tune?state.tuneK:l.kv;
+    var lit=$('lit'), off=$('imgOff'), det=$('imgDetail');
+    lit.hidden=off.hidden=!main; det.hidden=main; $('lamp').hidden=!main;
+    if(main){
+      /* настоящие кадры 3000K / 4500K / 6000K, между ними плавный переход */
+      $('img4500').style.opacity=k<=4500?((k-3000)/1500).toFixed(3):'1';
+      $('img6000').style.opacity=k<=4500?'0':((k-4500)/1500).toFixed(3);
+      lit.classList.toggle('off',!state.lamp);
+      lit.setAttribute('aria-hidden',String(!state.lamp));
+      off.setAttribute('aria-hidden',String(state.lamp));
+      $('lampSw').setAttribute('aria-checked',String(state.lamp));
+      var sz=find(SIZES,state.size);
+      $('cap').textContent='M1 '+sz.h+' × '+sz.w+' см в одной и той же комнате — сравните с консолью и ёлкой. '+(state.lamp?'Свет '+k+'K, '+kName(k)+'.':'Свет выключен.');
+    } else {
+      var d=DETAILS[+state.view.slice(1)];
+      det.src=d.src; det.alt=d.label; det.setAttribute('style',d.style);
+      $('cap').textContent=d.label;
+    }
+    $('touch').hidden=!(tune && main && state.lamp);
+    if(!$('touch').hidden){placeTouch();renderDial();}
+    var mt=document.querySelector('.thumb[data-k="main"] img');
+    if(mt){ var ns=sizeSrc(nearK()); if(mt.getAttribute('src')!==ns) mt.setAttribute('src',ns); }
+    $('sizeTag').hidden=!main;
+    var th=document.querySelectorAll('.thumb');
+    for(var i=0;i<th.length;i++){ if(th[i].getAttribute('data-k')===state.view) th[i].setAttribute('aria-current','true'); else th[i].removeAttribute('aria-current'); }
+  }
+  /* сенсорная кнопка — в точке внутри зеркала на кадре 2048×1152 */
+  var NW=1536, NH=2048, FX=.49;
+  function placeTouch(){
+    var m=$('stage'), img=$('img3000'), cw=m.clientWidth, ch=m.clientHeight;
+    if(!cw||!ch) return;
+    var sc=Math.max(cw/NW,ch/NH), rw=NW*sc, rh=NH*sc;
+    var pos=(getComputedStyle(img).objectPosition||'50% 50%').split(' ');
+    var px=parseFloat(pos[0])/100, py=parseFloat(pos[1]||'50')/100;
+    var el=$('touch'); el.style.left=((cw-rw)*px+FX*rw).toFixed(1)+'px'; el.style.top=((ch-rh)*py+find(SIZES,state.size).fy*rh).toFixed(1)+'px';
+  }
+  function setK(k){
+    k=Math.round(Math.max(3000,Math.min(6000,k))/100)*100;
+    if(!state.touched){state.touched=true;$('touch').classList.remove('fresh');}
+    state.tuneK=k; renderStage();
+    var t3=(k-3000)/3000; document.documentElement.style.setProperty('--lc',[Math.round(255-50*t3),Math.round(176+48*t3),Math.round(96+159*t3)].join(','));
+  }
+  (function(){
+    var dial=$('dial'), drag=false;
+    function fromEvent(e){
+      var b=dial.getBoundingClientRect(), cx=b.left+b.width/2, cy=b.top+b.height/2;
+      var a=Math.atan2(e.clientX-cx, -(e.clientY-cy))*180/Math.PI;
+      if(a>START+SPAN||a<START){ a=(a>0)?START+SPAN:START; }
+      setK(3000+(a-START)/SPAN*3000);
+    }
+    dial.addEventListener('pointerdown',function(e){drag=true;dial.setPointerCapture(e.pointerId);fromEvent(e);e.preventDefault();});
+    dial.addEventListener('pointermove',function(e){if(drag)fromEvent(e);});
+    dial.addEventListener('pointerup',function(){drag=false;});
+    dial.addEventListener('pointercancel',function(){drag=false;});
+    dial.addEventListener('wheel',function(e){e.preventDefault();setK(state.tuneK+(e.deltaY<0?100:-100));},{passive:false});
+    dial.addEventListener('keydown',function(e){
+      var map={ArrowRight:100,ArrowUp:100,ArrowLeft:-100,ArrowDown:-100,PageUp:500,PageDown:-500};
+      if(e.key in map){e.preventDefault();setK(state.tuneK+map[e.key]);}
+      else if(e.key==='Home'){e.preventDefault();setK(3000);} else if(e.key==='End'){e.preventDefault();setK(6000);}
+    });
+  })();
+
+  var toastTimer;
+  function toast(msg){var t=$('toast');t.textContent=msg;t.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.hidden=true},2800);}
+  var count=0;
+  function add(){
+    var s=find(SIZES,state.size), l=find(LIGHTS,state.light);
+    count++; var b=$('cartBadge'); b.textContent=count; b.hidden=false;
+    toast('Добавлено в расчёт: M1, '+s.h+' × '+s.w+' см, '+(l.id==='tune'?'настраиваемый':l.name.toLowerCase())+' свет');
+  }
+
+  buildOptions(); buildRoom(); render();
+
+  /* одно авторское движение: при открытии страницы в зеркале загорается свет */
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  setTimeout(function(){state.lamp=true;renderStage();}, reduce?0:700);
+
+  document.addEventListener('change',function(e){
+    var n=e.target.name; if(n==='size'||n==='light'||n==='type'){ state[n]=e.target.value; if(n==='light'){state.lamp=true;} if(n!=='type'){state.view='main';} render(); }
+  });
+  $('lampSw').addEventListener('click',function(){state.lamp=!state.lamp;renderStage();});
+  $('thumbs').addEventListener('click',function(e){var b=e.target.closest('.thumb');if(!b)return;state.view=b.getAttribute('data-k');renderStage();});
+  $('addBtn').addEventListener('click',add);
+  $('mAdd').addEventListener('click',add);
+  /* лёгкий снег на первом фото; останавливается, когда фото не видно */
+  (function(){
+    var cv=$('snow'), ctx=cv.getContext&&cv.getContext('2d'); if(!ctx||reduce) return;
+    var W=0,H=0,dpr=Math.min(window.devicePixelRatio||1,2),flakes=[],run=false,raf=0,vis=true;
+    function size(){var b=cv.getBoundingClientRect();W=b.width;H=b.height;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+    function mk(top){return {x:Math.random()*W,y:top?Math.random()*H:-10,r:1.1+Math.random()*2.6,s:.3+Math.random()*.7,w:Math.random()*6.28,a:.55+Math.random()*.4};}
+    size(); var N=Math.round(Math.min(110,W*H/5000)); for(var i=0;i<N;i++)flakes.push(mk(true));
+    function tick(){
+      ctx.clearRect(0,0,W,H);
+      for(var i=0;i<flakes.length;i++){var f=flakes[i];f.y+=f.s;f.w+=.012;f.x+=Math.sin(f.w)*.35;
+        if(f.y>H+6){flakes[i]=mk(false);continue;}
+        ctx.beginPath();ctx.arc(f.x,f.y,f.r,0,6.283);ctx.fillStyle='rgba(255,255,255,'+f.a+')';ctx.shadowColor='rgba(255,255,255,.8)';ctx.shadowBlur=f.r*2;ctx.fill();}
+      raf=requestAnimationFrame(tick);
+    }
+    function set(on){if(on&&!run){run=true;raf=requestAnimationFrame(tick);}else if(!on&&run){run=false;cancelAnimationFrame(raf);}}
+    if('IntersectionObserver' in window){new IntersectionObserver(function(es){vis=es[0].isIntersecting;set(vis&&!document.hidden);}).observe(cv);} else set(true);
+    document.addEventListener('visibilitychange',function(){set(vis&&!document.hidden);});
+    window.addEventListener('resize',size);
+  })();
+
+  /* вкладки «О зеркале» */
+  var tabs=[].slice.call(document.querySelectorAll('#tabs [role="tab"]'));
+  function showTab(tb,focus){
+    tabs.forEach(function(x){var on=x===tb;x.setAttribute('aria-selected',String(on));x.tabIndex=on?0:-1;$(x.getAttribute('aria-controls')).hidden=!on;});
+    if(focus)tb.focus();
+  }
+  $('tabs').addEventListener('click',function(e){var b=e.target.closest('[role="tab"]');if(b)showTab(b);});
+  $('tabs').addEventListener('keydown',function(e){
+    var i=tabs.indexOf(document.activeElement); if(i<0)return;
+    var n={ArrowRight:i+1,ArrowLeft:i-1,Home:0,End:tabs.length-1}[e.key];
+    if(n===undefined)return; e.preventDefault(); showTab(tabs[(n+tabs.length)%tabs.length],true);
+  });
+  /* избранное */
+  $('favBtn').addEventListener('click',function(){var on=this.getAttribute('aria-pressed')!=='true';this.setAttribute('aria-pressed',String(on));this.setAttribute('aria-label',on?'Убрать из избранного':'В избранное');toast(on?'M1 сохранено в избранное':'Убрано из избранного');});
+
+  /* как устроено: точки и список связаны */
+  function feat(i){
+    var hs=document.querySelectorAll('.hot'), fb=document.querySelectorAll('#feat button');
+    for(var j=0;j<hs.length;j++){hs[j].setAttribute('aria-pressed',String(+hs[j].getAttribute('data-f')===i));hs[j].classList.remove('ping');}
+    for(var j2=0;j2<fb.length;j2++){fb[j2].setAttribute('aria-expanded',String(+fb[j2].getAttribute('data-f')===i));}
+  }
+  $('anatFig').addEventListener('click',function(e){var b=e.target.closest('.hot');if(b){showTab(tabs[0]);feat(+b.getAttribute('data-f'));}});
+  $('feat').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var i=+b.getAttribute('data-f');feat(b.getAttribute('aria-expanded')==='true'?-1:i);});
+
+  /* примерка: размер с плашек */
+  $('fitPills').addEventListener('click',function(e){var b=e.target.closest('.pill');if(!b)return;state.size=b.getAttribute('data-s');state.view='main';var r=$('size-'+state.size);if(r)r.checked=true;render();});
+  /* заранее подгружаем фото всех размеров, чтобы смена была мгновенной */
+  window.addEventListener('load',function(){setTimeout(function(){SIZES.forEach(function(s){['off','3000','4500','6000'].forEach(function(t){var i=new Image();i.src='img/m1-'+s.n+'-'+t+'.jpg';});});},1200);});
+
+  /* отзывы: сообщения появляются по одному, как в переписке */
+  var bubs=document.querySelectorAll('#chatBody .bub'), typing=document.querySelector('#chatBody .typing');
+  function playChat(){
+    if(reduce){for(var j=0;j<bubs.length;j++)bubs[j].classList.add('in');return;}
+    var i=0;
+    (function next(){
+      if(i>=bubs.length){typing.classList.remove('on');return;}
+      typing.classList.add('on'); bubs[i].parentNode.insertBefore(typing,bubs[i]);
+      setTimeout(function(){typing.classList.remove('on');bubs[i].classList.add('in');i++;setTimeout(next,450);},900);
+    })();
+  }
+  document.documentElement.classList.add('js');
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es,ob){if(es[0].isIntersecting){playChat();ob.disconnect();}},{threshold:.35}).observe($('chat'));
+  } else { for(var bj=0;bj<bubs.length;bj++)bubs[bj].classList.add('in'); }
+
+  /* когда привезём */
+  var MON=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  function addWork(d,n){d=new Date(d);while(n>0){d.setDate(d.getDate()+1);var w=d.getDay();if(w!==0&&w!==6)n--;}return d;}
+  function dm(d){return d.getDate()+' '+MON[d.getMonth()];}
+  function eta(){
+    var city=document.querySelector('input[name="city"]:checked').value, now=new Date();
+    $('etaSeg').setAttribute('data-v',city==='msk'?'contour':'front');
+    var ready=addWork(now,3), a=new Date(ready), b=new Date(ready); a.setDate(a.getDate()+1); b.setDate(b.getDate()+2);
+    $('d3').textContent='с '+dm(ready);
+    if(city==='msk'){
+      var range=(a.getMonth()===b.getMonth())?(a.getDate()+'–'+dm(b)):(dm(a)+' – '+dm(b));
+      $('d4').textContent=range; $('d4t').textContent='Привозим'; $('d4s').textContent='Курьером до двери за 24–48 часов после готовности.';
+      $('etaHead').textContent=range;
+    } else {
+      $('d4').textContent='после '+dm(ready); $('d4t').textContent='Отправляем'; $('d4s').textContent='СДЭК или Ozon. Самовывоз из пункта Ozon бесплатно, срок доставки назовёт менеджер.';
+      $('etaHead').textContent='в ваш город';
+    }
+  }
+  document.querySelectorAll('input[name="city"]').forEach(function(r){r.addEventListener('change',eta);});
+  eta();
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es,ob){if(es[0].isIntersecting){$('track').classList.add('go');ob.disconnect();}},{threshold:.4}).observe($('track'));
+  } else { $('track').classList.add('go'); }
+  $('models').addEventListener('click',function(e){var f=e.target.closest('.fav');if(!f)return;var on=f.getAttribute('aria-pressed')!=='true';f.setAttribute('aria-pressed',String(on));toast(on?'Сохранено в избранное':'Убрано из избранного');});
+  $('menuBtn').addEventListener('click',function(){var open=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!open));$('mnav').hidden=open;});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('mnav').hidden){$('mnav').hidden=true;$('menuBtn').setAttribute('aria-expanded','false');$('menuBtn').focus();}});
+  window.addEventListener('resize',function(){if(!$('touch').hidden)placeTouch();});
+  $('img3000').addEventListener('load',function(){if(!$('touch').hidden)placeTouch();});
+
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      var e=es[0]; $('mbar').classList.toggle('show',!e.isIntersecting && e.boundingClientRect.top<0);
+    },{threshold:0}).observe($('addBtn'));
+  }
+  if(location.hash==='#tune'){ var r=$('light-tune'); if(r){r.checked=true;state.light='tune';render();} }
+})();
+</script>
+
+</body>
+</html>
